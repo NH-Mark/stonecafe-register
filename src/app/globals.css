@@ -58,6 +58,9 @@ body {
   margin: 0;
   background: #40332a;
   color: #40332a;
+  font-family: var(--font-jakarta), sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
 button,

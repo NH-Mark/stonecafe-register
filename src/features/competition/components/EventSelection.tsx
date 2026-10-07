@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { CompetitionEvent } from "../types/event";
 import { getEvents } from "../services/event-service";
+import { getImageUrl } from "@/utils/image";
 
 type EventSelectionProps = {
   selectedEvent: CompetitionEvent | null;
@@ -40,22 +41,24 @@ export default function EventSelection({
   if (loading) {
     return (
       <section>
-        <div className="mb-8 text-center">
-          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[#A57653]">
-            Stone Cafe
-          </p>
+        <div className="mb-10 text-center">
+          {/* Replace this with the actual Stone Cafe logo when available */}
+          <div className="text-xl font-semibold tracking-[0.2em] text-[#40332A]">
+            STONE CAFE
+          </div>
 
-          <h1 className="mt-3 text-3xl font-semibold text-[#40332A] sm:text-4xl">
+          <h1 className="mt-6 text-2xl font-semibold text-[#40332A] sm:text-3xl">
             Choose Your Event
           </h1>
         </div>
 
-        <div className="grid gap-5 md:grid-cols-2">
+        <div className="mx-auto grid max-w-5xl gap-8 md:grid-cols-2">
           {[1, 2].map((item) => (
-            <div
-              key={item}
-              className="h-[390px] animate-pulse rounded-2xl border border-[#D9D9D8] bg-white"
-            />
+            <div key={item} className="animate-pulse">
+              <div className="aspect-[2/3] w-full rounded-xl bg-white/70" />
+
+              <div className="mx-auto mt-4 h-11 w-full rounded-md bg-white/70" />
+            </div>
           ))}
         </div>
       </section>
@@ -65,7 +68,7 @@ export default function EventSelection({
   if (error) {
     return (
       <section>
-        <div className="rounded-2xl border border-red-200 bg-red-50 p-6 text-center">
+        <div className="rounded-xl border border-red-200 bg-red-50 p-6 text-center">
           <p className="text-sm text-red-600">{error}</p>
         </div>
       </section>
@@ -75,7 +78,7 @@ export default function EventSelection({
   if (events.length === 0) {
     return (
       <section>
-        <div className="rounded-2xl border border-[#D9D9D8] bg-white p-10 text-center">
+        <div className="rounded-xl border border-[#D9D9D8] bg-white p-10 text-center">
           <p className="text-sm text-[#40332A]/60">
             No events are currently available.
           </p>
@@ -86,93 +89,79 @@ export default function EventSelection({
 
   return (
     <section>
-      <div className="mb-8 text-center">
-        <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[#A57653]">
-          Stone Cafe
-        </p>
+      {/* Header */}
+      <div className="mb-10 text-center">
+        {/* Stone Cafe Logo */}
+        <div className="flex justify-center">
+          <img
+            src="/logo.png"
+            alt="Stone Cafe"
+            className="h-auto w-32 object-contain sm:w-36"
+          />
+        </div>
 
-        <h1 className="mt-3 text-3xl font-semibold text-[#40332A] sm:text-4xl">
-          Choose Your Event
+        <h1 className="mt-7 text-2xl font-semibold text-[#40332A] sm:text-3xl">
+         Upcoming Events
         </h1>
-
-        <p className="mx-auto mt-3 max-w-xl text-sm leading-6 text-[#40332A]/60">
-          Select the event you would like to participate in.
-        </p>
       </div>
 
-      <div className="grid gap-5 md:grid-cols-2">
+      {/* Event Posters */}
+      <div className="mx-auto grid max-w-5xl gap-10 md:grid-cols-2">
         {events.map((event) => {
           const isSelected = selectedEvent?.id === event.id;
 
           return (
-            <button
-              key={event.id}
-              type="button"
-              onClick={() => onSelect(event)}
-              className={`group overflow-hidden rounded-2xl border text-left transition ${
-                isSelected
-                  ? "border-[#A57653] bg-[#F3F3F3] ring-2 ring-[#A57653]/20"
-                  : "border-[#D9D9D8] bg-white hover:border-[#A57653]/60"
-              }`}
-            >
-              <div className="relative h-48 overflow-hidden">
+            <div key={event.id} className="flex flex-col">
+              {/* Poster */}
+              <button
+                type="button"
+                onClick={() => onSelect(event)}
+                aria-label={`Select ${event.name}`}
+                className={`group relative overflow-hidden rounded-xl bg-white transition-all duration-300 ${
+                  isSelected
+                    ? "ring-2 ring-[#A57653] ring-offset-4 ring-offset-[#DDCFBE]"
+                    : "shadow-md hover:-translate-y-1 hover:shadow-xl"
+                }`}
+              >
                 {event.image ? (
-                  <img
-                    src={event.image}
-                    alt={event.name}
-                    className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
-                  />
+                  <div className="relative w-full">
+                    <img
+                      src={getImageUrl(event.image) ?? ""}
+                      alt={event.name}
+                      className="block h-auto max-h-[700px] w-full object-contain"
+                    />
+
+                    {/* Subtle hover overlay */}
+                    <div className="absolute inset-0 bg-[#40332A]/0 transition-colors duration-300 group-hover:bg-[#40332A]/5" />
+                  </div>
                 ) : (
-                  <div className="flex h-full w-full items-center justify-center bg-[#F3F3F3]">
-                    <span className="text-sm font-medium text-[#40332A]/40">
-                      {event.name}
-                    </span>
+                  <div className="flex aspect-[2/3] w-full items-center justify-center bg-[#F3F3F3] px-6 text-center">
+                    <div>
+                      <p className="text-lg font-semibold text-[#40332A]">
+                        {event.name}
+                      </p>
+
+                      <p className="mt-2 text-sm text-[#40332A]/50">
+                        Event poster coming soon
+                      </p>
+                    </div>
                   </div>
                 )}
+              </button>
 
-                <div className="absolute inset-0 bg-[#40332A]/20" />
-
-                <div className="absolute right-4 top-4">
-                  <span
-                    className={`rounded-full px-3 py-1.5 text-xs font-semibold ${
-                      Number(event.fee) === 0
-                        ? "bg-white text-[#40332A]"
-                        : "bg-[#A57653] text-white"
-                    }`}
-                  >
-                    {Number(event.fee) === 0
-                      ? "FREE"
-                      : `${event.currency} ${Number(event.fee).toFixed(2)}`}
-                  </span>
-                </div>
-              </div>
-
-              <div className="p-5">
-                <h2 className="text-xl font-semibold text-[#40332A]">
-                  {event.name}
-                </h2>
-
-                <p className="mt-2 line-clamp-2 text-sm leading-6 text-[#40332A]/60">
-                  {event.description}
-                </p>
-
-                <div className="mt-5 flex items-center justify-between">
-                  <span className="text-xs uppercase tracking-[0.12em] text-[#A57653]">
-                    {event.date}
-                  </span>
-
-                  <span
-                    className={`text-sm font-semibold ${
-                      isSelected
-                        ? "text-[#A57653]"
-                        : "text-[#40332A]"
-                    }`}
-                  >
-                    {isSelected ? "Selected ✓" : "Select Event →"}
-                  </span>
-                </div>
-              </div>
-            </button>
+              {/* Register button */}
+              <button
+                type="button"
+                onClick={() => onSelect(event)}
+                className={`mt-4 flex h-11 w-full items-center justify-center rounded-md px-6 text-sm font-semibold transition ${
+                  isSelected
+                    ? "bg-[#A57653] text-white"
+                    : "bg-[#40332A] text-white hover:bg-[#40332A]/90"
+                }`}
+              >
+                {isSelected ? "Selected" : "Register"}
+              </button>
+            </div>
           );
         })}
       </div>

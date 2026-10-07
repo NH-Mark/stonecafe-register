@@ -16,4 +16,5 @@ export type CompetitionEvent = {
 
   capacity: number | null;
   is_active: boolean;
+  registration_type:string;
 };
