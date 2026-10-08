@@ -19,9 +19,9 @@ const jakarta = Plus_Jakarta_Sans({
 
 
 export const metadata: Metadata = {
-  title: "Barista Competition",
+  title: "Stone Event Registration",
   description:
-    "Register for the Barista Competition.",
+    "Register for the events.",
 };
 
 export default function RootLayout({      
