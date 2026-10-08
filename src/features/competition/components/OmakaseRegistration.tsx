@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/select";
 import EventRegistrationSidebar from "./EventDetailsSidebar";
 import FormInput from "@/components/ui/form-input";
-
+import Link from "next/link";
 const omakaseSchema = z.object({
     full_name: z
         .string()
@@ -311,13 +311,13 @@ export default function OmakaseRegistration({
                         ← Back
                     </button>
 
-                    <div className="flex items-center">
+                    <Link href="/events" className="flex items-center">
                         <img
                             src="/logo.png"
                             alt="Stone Cafe"
                             className="h-14 w-auto object-contain"
                         />
-                    </div>
+                    </Link>
                 </div>
 
                 <div className="mb-8 text-center">

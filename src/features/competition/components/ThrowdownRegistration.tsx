@@ -19,6 +19,7 @@ import {
 import EventRegistrationSidebar from "./EventDetailsSidebar";
 import FormInput from "@/components/ui/form-input";
 import { zodResolver } from "@hookform/resolvers/zod";
+import Link from "next/link";
 
 const throwdownSchema = z
     .object({
@@ -241,13 +242,13 @@ export default function ThrowdownRegistration({
                         ← Back
                     </button>
 
-                    <div className="flex items-center">
+                     <Link href="/events" className="flex items-center">
                         <img
                             src="/logo.png"
                             alt="Stone Cafe"
                             className="h-14 w-auto object-contain"
                         />
-                    </div>
+                    </Link>
                 </div>
 
                 {/* Title */}
