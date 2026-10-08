@@ -213,7 +213,7 @@ export default function ThrowdownRegistration({
                 result
             );
 
-            router.push("/register/success");
+            router.push("/events/success");
         } catch (error) {
             console.error(
                 "Throwdown registration error:",

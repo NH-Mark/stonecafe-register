@@ -23,3 +23,12 @@ export async function getEvents(): Promise<CompetitionEvent[]> {
 
   return result.data;
 }
+
+export async function getEventBySlug(
+  slug: string
+): Promise<CompetitionEvent | null> {
+  const events = await getEvents();
+
+  return events.find((event) => event.slug === slug) ?? null;
+}
+

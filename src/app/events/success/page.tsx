@@ -31,7 +31,7 @@ export default function RegistrationSuccessPage() {
                 </div>
 
                 <Link
-                    href="/register"
+                    href="/events"
                     className="mt-8 inline-flex h-11 items-center justify-center rounded-md bg-[#40332A] px-6 text-sm font-semibold text-white transition hover:bg-[#40332A]/90"
                 >
                     Register for Another Event

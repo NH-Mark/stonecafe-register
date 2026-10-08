@@ -1,19 +1,15 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+
 import { CompetitionEvent } from "../types/event";
 import { getEvents } from "../services/event-service";
 import { getImageUrl } from "@/utils/image";
 
-type EventSelectionProps = {
-  selectedEvent: CompetitionEvent | null;
-  onSelect: (event: CompetitionEvent) => void;
-};
+export default function EventSelection() {
+  const router = useRouter();
 
-export default function EventSelection({
-  selectedEvent,
-  onSelect,
-}: EventSelectionProps) {
   const [events, setEvents] = useState<CompetitionEvent[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -38,11 +34,14 @@ export default function EventSelection({
     loadEvents();
   }, []);
 
+  const handleRegister = (event: CompetitionEvent) => {
+    router.push(`/events/${event.slug}`);
+  };
+
   if (loading) {
     return (
       <section>
         <div className="mb-10 text-center">
-          {/* Replace this with the actual Stone Cafe logo when available */}
           <div className="text-xl font-semibold tracking-[0.2em] text-[#40332A]">
             STONE CAFE
           </div>
@@ -56,7 +55,6 @@ export default function EventSelection({
           {[1, 2].map((item) => (
             <div key={item} className="animate-pulse">
               <div className="aspect-[2/3] w-full rounded-xl bg-white/70" />
-
               <div className="mx-auto mt-4 h-11 w-full rounded-md bg-white/70" />
             </div>
           ))}
@@ -89,9 +87,7 @@ export default function EventSelection({
 
   return (
     <section>
-      {/* Header */}
       <div className="mb-10 text-center">
-        {/* Stone Cafe Logo */}
         <div className="flex justify-center">
           <img
             src="/logo.png"
@@ -101,69 +97,55 @@ export default function EventSelection({
         </div>
 
         <h1 className="mt-7 text-2xl font-semibold text-[#40332A] sm:text-3xl">
-         Upcoming Events
+          Upcoming Events
         </h1>
       </div>
 
-      {/* Event Posters */}
       <div className="mx-auto grid max-w-5xl gap-10 md:grid-cols-2">
-        {events.map((event) => {
-          const isSelected = selectedEvent?.id === event.id;
+        {events.map((event) => (
+          <div key={event.id} className="flex flex-col">
+            <button
+              type="button"
+              onClick={() => handleRegister(event)}
+              aria-label={`Register for ${event.name}`}
+              className="group relative overflow-hidden rounded-xl bg-white shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+            >
+              {event.image ? (
+                <div className="relative w-full">
+                  <img
+                    src={getImageUrl(event.image) ?? ""}
+                    alt={event.name}
+                    className="block h-auto max-h-[700px] w-full object-contain"
+                  />
 
-          return (
-            <div key={event.id} className="flex flex-col">
-              {/* Poster */}
-              <button
-                type="button"
-                onClick={() => onSelect(event)}
-                aria-label={`Select ${event.name}`}
-                className={`group relative overflow-hidden rounded-xl bg-white transition-all duration-300 ${
-                  isSelected
-                    ? "ring-2 ring-[#A57653] ring-offset-4 ring-offset-[#DDCFBE]"
-                    : "shadow-md hover:-translate-y-1 hover:shadow-xl"
-                }`}
-              >
-                {event.image ? (
-                  <div className="relative w-full">
-                    <img
-                      src={getImageUrl(event.image) ?? ""}
-                      alt={event.name}
-                      className="block h-auto max-h-[700px] w-full object-contain"
-                    />
+                  <div className="absolute inset-0 bg-[#40332A]/0 transition-colors duration-300 group-hover:bg-[#40332A]/5" />
+                </div>
+              ) : (
+                <div className="flex aspect-[2/3] w-full items-center justify-center bg-[#F3F3F3] px-6 text-center">
+                  <div>
+                    <p className="text-lg font-semibold text-[#40332A]">
+                      {event.name}
+                    </p>
 
-                    {/* Subtle hover overlay */}
-                    <div className="absolute inset-0 bg-[#40332A]/0 transition-colors duration-300 group-hover:bg-[#40332A]/5" />
+                    <p className="mt-2 text-sm text-[#40332A]/50">
+                      Event poster coming soon
+                    </p>
                   </div>
-                ) : (
-                  <div className="flex aspect-[2/3] w-full items-center justify-center bg-[#F3F3F3] px-6 text-center">
-                    <div>
-                      <p className="text-lg font-semibold text-[#40332A]">
-                        {event.name}
-                      </p>
+                </div>
+              )}
+            </button>
 
-                      <p className="mt-2 text-sm text-[#40332A]/50">
-                        Event poster coming soon
-                      </p>
-                    </div>
-                  </div>
-                )}
-              </button>
-
-              {/* Register button */}
-              <button
-                type="button"
-                onClick={() => onSelect(event)}
-                className={`mt-4 flex h-11 w-full items-center justify-center rounded-md px-6 text-sm font-semibold transition ${
-                  isSelected
-                    ? "bg-[#A57653] text-white"
-                    : "bg-[#40332A] text-white hover:bg-[#40332A]/90"
-                }`}
-              >
-                {isSelected ? "Selected" : "Register"}
-              </button>
-            </div>
-          );
-        })}
+            <button
+              type="button"
+              onClick={() => handleRegister(event)}
+              className="mt-4 flex h-11 w-full items-center justify-center rounded-md bg-[#40332A] px-6 text-sm font-semibold text-white transition hover:bg-[#40332A]/90"
+            >
+              {event.registration_type === "omakase_booking"
+                ? "Reserve Your Seat"
+                : "Register"}
+            </button>
+          </div>
+        ))}
       </div>
     </section>
   );

@@ -283,7 +283,7 @@ export default function OmakaseRegistration({
                 return;
             }
 
-            router.push("/register/success");
+            router.push("/events/success");
         } catch (error) {
             console.error(
                 "Omakase registration error:",
