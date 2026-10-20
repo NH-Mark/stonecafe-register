@@ -214,7 +214,7 @@ export default function ThrowdownRegistration({
                 result
             );
 
-            router.push("/events/success");
+            router.push("/success");
         } catch (error) {
             console.error(
                 "Throwdown registration error:",
@@ -242,7 +242,7 @@ export default function ThrowdownRegistration({
                         ← Back
                     </button>
 
-                     <Link href="/events" className="flex items-center">
+                     <Link href="/" className="flex items-center">
                         <img
                             src="/logo.png"
                             alt="Stone Cafe"

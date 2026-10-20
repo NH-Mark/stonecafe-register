@@ -16,7 +16,7 @@ export default function EventRegistration({
   const router = useRouter();
 
   const onBack = () => {
-    router.push("/events");
+    router.push(`/${event.slug}`);
   };
 
   switch (event.registration_type) {

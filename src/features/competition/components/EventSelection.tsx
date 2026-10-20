@@ -35,7 +35,7 @@ export default function EventSelection() {
   }, []);
 
   const handleRegister = (event: CompetitionEvent) => {
-    router.push(`/events/${event.slug}`);
+    router.push(`/${event.slug}`);
   };
 
   if (loading) {

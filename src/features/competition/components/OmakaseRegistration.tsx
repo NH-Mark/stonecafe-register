@@ -283,7 +283,7 @@ export default function OmakaseRegistration({
                 return;
             }
 
-            router.push("/events/success");
+            router.push("/success");
         } catch (error) {
             console.error(
                 "Omakase registration error:",
@@ -311,7 +311,7 @@ export default function OmakaseRegistration({
                         ← Back
                     </button>
 
-                    <Link href="/events" className="flex items-center">
+                    <Link href="/" className="flex items-center">
                         <img
                             src="/logo.png"
                             alt="Stone Cafe"
