@@ -29,7 +29,7 @@ export default async function EventDetailsPage({ params }: PageProps) {
             <img
               src="/logo.png"
               alt="Stone Cafe"
-              className="h-14 w-auto object-contain"
+              className="h-11 w-auto object-contain"
             />
           </Link>
         </div>
