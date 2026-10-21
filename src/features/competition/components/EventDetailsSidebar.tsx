@@ -139,6 +139,12 @@ export default function EventRegistrationSidebar({
                                 "Free"
                             )}
                         </p>
+
+                        {mode !== "booking" && (
+                            <p className="mt-2 text-xs leading-5 text-white/60">
+                                The registration fee is only payable if you are selected for the final list of competitors.
+                            </p>
+                        )}
                     </div>
                 </div>
             </div>
