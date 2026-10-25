@@ -276,10 +276,14 @@ export default function OmakaseRegistration({
                 dietary_needs:
                     values.dietary_needs?.trim() || null,
             });
+            console.log("Event registration result:", result);
+            const paymentUrl =
+                result?.data?.payment_url ||
+                (result as { payment_url?: string | null })
+                    ?.payment_url;
 
-            if (result.data.payment_url) {
-                window.location.href =
-                    result.data.payment_url;
+            if (typeof paymentUrl === "string" && paymentUrl.trim()) {
+                window.location.href = paymentUrl;
                 return;
             }
 
