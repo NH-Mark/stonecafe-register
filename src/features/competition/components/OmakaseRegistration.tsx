@@ -71,6 +71,7 @@ type EventTimeSlot = {
     reserved_seats: number;
     available_seats: number;
     is_full: boolean;
+    is_active: boolean;
 };
 
 type OmakaseRegistrationProps = {
@@ -229,6 +230,7 @@ export default function OmakaseRegistration({
             }
 
             if (
+                !currentSlot.is_active ||
                 currentSlot.is_full ||
                 currentSlot.available_seats <= 0
             ) {
@@ -440,28 +442,34 @@ export default function OmakaseRegistration({
                                                 </SelectTrigger>
 
                                                 <SelectContent className="text-xs">
-                                                    {slots.map((slot) => (
-                                                        <SelectItem
-                                                            key={slot.id}
-                                                            value={String(slot.id)}
-                                                            disabled={
-                                                                slot.is_full ||
-                                                                slot.available_seats <= 0
-                                                            }
-                                                            className="text-xs"
-                                                        >
-                                                            {slot.name} —{" "}
-                                                            {formatTime(slot.start_time)} -{" "}
-                                                            {formatTime(slot.end_time)} (
-                                                            {slot.is_full
-                                                                ? "Full"
-                                                                : `${slot.available_seats} seat${slot.available_seats === 1
-                                                                    ? ""
-                                                                    : "s"
-                                                                } left`}
-                                                            )
-                                                        </SelectItem>
-                                                    ))}
+                                                    {slots.map((slot) => {
+                                                        const isUnavailable =
+                                                            !slot.is_active ||
+                                                            slot.is_full ||
+                                                            slot.available_seats <= 0;
+
+                                                        return (
+                                                            <SelectItem
+                                                                key={slot.id}
+                                                                value={String(slot.id)}
+                                                                disabled={isUnavailable}
+                                                                className="text-xs"
+                                                            >
+                                                                {slot.name} —{" "}
+                                                                {formatTime(slot.start_time)} -{" "}
+                                                                {formatTime(slot.end_time)} (
+                                                                {!slot.is_active
+                                                                    ? "Unavailable"
+                                                                    : slot.is_full
+                                                                        ? "Full"
+                                                                        : `${slot.available_seats} seat${slot.available_seats === 1
+                                                                            ? ""
+                                                                            : "s"
+                                                                        } left`}
+                                                                )
+                                                            </SelectItem>
+                                                        );
+                                                    })}
                                                 </SelectContent>
                                             </Select>
                                         )}
